@@ -3,33 +3,30 @@ package ba.unsa.etf.rpr;
 public class Korpa {
     private Artikl[] artikli = new Artikl[50];
     private int velicina = 0;
-
     public boolean dodajArtikl(Artikl artikl) {
-        if (velicina >= 50) return false;
+        if (velicina > 50) return false;
         artikli[velicina] = artikl;
-        velicina = velicina + 1;
+        velicina++;
         return true;
     }
-    public Artikl[] getArtikli() { return artikli; }
-
     public Artikl izbaciArtiklSaKodom(String kod) {
-        for(int i = 0; i < velicina; i++) {
-            if(kod.equals(artikli[i].getKod())) {
-                Artikl vrati = artikli[i];
+        for (int i = 0; i < velicina; i++) {
+            if (kod.equals(artikli[i].getKod())) {
+                Artikl izbaceni_artikl = artikli[i];
                 artikli[i] = null;
-                System.arraycopy(artikli, i+1, artikli, i, velicina-i);
-                velicina = velicina - i;
-                return vrati;
+                velicina--;
+                System.arraycopy(artikli, i + 1, artikli, i, velicina);
+                return izbaceni_artikl;
             }
         }
         return null;
     }
+
+    public Artikl[] getArtikli() {return artikli;}
+
     public int dajUkupnuCijenuArtikala() {
-        int ukupno = 0;
-        for(int i = 0; i < velicina; i++) {
-            ukupno = ukupno + artikli[i].getCijena();
-        }
-        return ukupno;
+        int cijena = 0;
+        for (int i = 0; i < velicina; i++) cijena = cijena + artikli[i].getCijena();
+        return cijena;
     }
-    public int getVel() {return velicina; }
 }
